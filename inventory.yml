@@ -1,0 +1,76 @@
+all:
+  children:
+    proxhosts:
+      hosts:
+        proxovh: {}
+        megalodon: {}
+      vars:
+        is_docker_host: false
+        ansible_user: root
+        ansible_python_interpreter: /usr/bin/python3
+
+    #    servers_mega:
+    #      hosts:
+    #        megalodon: {}
+    #      vars:
+    #        is_docker_host: false
+    #        ansible_user: root
+    #        ansible_python_interpreter: /usr/bin/python3
+
+    servers_debian:
+      hosts:
+        mediaserver: {} # OpenMediaVault
+        kasmovh: {} # KasmOVH
+      vars:
+        ansible_user: {{ user1 }}
+        ansible_become: true
+        ansible_become_method: sudo
+        ansible_become_user: root
+        ansible_become_pass: "{{ ansible_become_pass }}"
+        is_docker_host: false
+        ansible_python_interpreter: /usr/bin/python3
+
+    servers_ubuntu:
+      hosts:
+        komodocker:
+          docker_compose_project_path: "/opt/komodocker/compose/"
+        komodockermega:
+          docker_compose_project_path: "/opt/komodockermega/compose/"
+        ubuntia: {}
+      vars:
+        ansible_user: {{ user2 }}
+        ansible_become: true
+        ansible_become_method: sudo
+        ansible_become_user: root
+        ansible_become_pass: "{{ ansible_become_pass }}"
+        is_docker_host: true
+        ansible_python_interpreter: /usr/bin/python3
+
+    servers_other:
+      hosts:
+        cml2mega: {}
+      vars:
+        ansible_user: {{ user3 }}
+        ansible_become: true
+        ansible_become_method: sudo
+        ansible_become_user: root
+        ansible_become_pass: "{{ ansible_become_pass }}"
+        is_docker_host: false
+        ansible_python_interpreter: /usr/bin/python3
+
+    servers_vps: # VPS OVH
+      hosts:
+        dashtunnel: {}
+        relay: {}
+      vars:
+        ansible_user: {{ user4 }}
+        ansible_become: true
+        ansible_become_method: sudo
+        ansible_become_user: root
+        ansible_become_pass: "{{ ansible_become_pass }}"
+        is_docker_host: false
+        ansible_python_interpreter: /usr/bin/python3
+
+  vars:
+    # Global default docker compose path
+    docker_compose_project_path: "$home/docker-compose.yml"
